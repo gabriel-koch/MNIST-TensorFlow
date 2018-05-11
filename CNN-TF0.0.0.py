@@ -17,7 +17,7 @@ def cnn_model_fn(features, labels, mode):
     #Input Layer
     #Reshape X to 4-D tensor: [batch_size, width, height, channels]
     input_layer = tf.reshape(features['x'],[-1, 28, 28, 1])
-    
+
     #Convolutional Layer 
     #Computes 3 features maps using 5x5 filter with sigmoid activation
     #Input Tensor Shape: [batch_size, 28, 28, 1]
@@ -76,7 +76,7 @@ def cnn_model_fn(features, labels, mode):
     
     #Configura the Training Op (for TRAIN mode)
     if mode == tf.estimator.ModeKeys.TRAIN:
-        optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.001)
+        optimizer = tf.train.GradientDescentOptimizer(learning_rate = 0.1)
         train_op = optimizer.minimize(
             loss=loss,
             global_step = tf.train.get_global_step())
@@ -92,7 +92,7 @@ def cnn_model_fn(features, labels, mode):
         mode = mode, loss = loss, eval_metric_ops = eval_metric_ops)
     
       
-def main(unused_argv)    :
+def main(unused_argv):
     #Load training, validation and test data
     mnist = tf.contrib.learn.datasets.load_dataset('mnist')
     train_data = mnist.train.images #return a np.array
@@ -116,8 +116,8 @@ def main(unused_argv)    :
     train_input_fn = tf.estimator.inputs.numpy_input_fn(
             x={'x':train_data},
             y=train_labels,
-            batch_size=100,
-            num_epochs=None,
+            batch_size=10,
+            num_epochs=60,
             shuffle=True)
     mnist_classifier.train(
             input_fn=train_input_fn,
@@ -131,7 +131,7 @@ def main(unused_argv)    :
             num_epochs=1,
             shuffle=False)
     eval_results = mnist_classifier.evaluate(input_fn=eval_input_fn)
-    print(eval_results)
+    print(eval_results) 
     
     
     
