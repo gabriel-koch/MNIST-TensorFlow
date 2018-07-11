@@ -88,10 +88,9 @@ saver.restore(sess, 'model/models')
 
 
 
-image = np.array(mpimp.imread('img_1.png')).reshape(1, 784)
+for _ in range(14):
+    
+    image = np.array(mpimp.imread('img_' + str(_) + '.png')).reshape(1, 784)
 
-
-
-pred = z2.eval(session=sess,
-               feed_dict={x: image, keep_prob: 1.0})
-print(pred)
+    pred = z2.eval(session=sess, feed_dict={x: image, keep_prob: 1.0})
+    print(pred)
